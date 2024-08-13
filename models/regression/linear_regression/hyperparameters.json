@@ -1,0 +1,5 @@
+{
+    "alpha": 0.001,
+    "max_iter": 10000,
+    "penalty": "l2"
+}
