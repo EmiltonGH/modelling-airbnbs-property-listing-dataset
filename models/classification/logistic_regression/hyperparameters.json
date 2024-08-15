@@ -1,0 +1,4 @@
+{
+    "model__C": 10,
+    "model__solver": "liblinear"
+}
