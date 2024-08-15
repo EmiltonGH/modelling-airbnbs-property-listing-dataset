@@ -5,12 +5,10 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.datasets import make_regression
 from sklearn_hyperparameters import tune_regression_model_hyperparameters
-
 import os
 import json
 from joblib import dump
 
-# Define the save_model function
 def save_model(model, hyperparameters, metrics, folder):
     os.makedirs(folder, exist_ok=True)
     dump(model, os.path.join(folder, 'model.joblib'))
@@ -19,8 +17,6 @@ def save_model(model, hyperparameters, metrics, folder):
     with open(os.path.join(folder, 'metrics.json'), 'w') as f:
         json.dump(metrics, f)
     print(f"Model saved to {folder}")
-
-# Assuming the tune_regression_model_hyperparameters function is already defined above
 
 def evaluate_all_models(X_train, y_train, X_test, y_test):
     param_grids = {

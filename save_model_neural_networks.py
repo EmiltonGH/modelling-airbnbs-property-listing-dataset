@@ -155,7 +155,7 @@ def train_and_evaluate(model, train_loader, val_loader, test_loader, config, num
     test_loss, test_r2 = evaluate_model(model, test_loader, criterion)
 
     # Inference latency calculation
-    num_inference_samples = 100  # Adjust based on your needs
+    num_inference_samples = 100  
     inference_start_time = time.time()
     for _ in range(num_inference_samples):
         _ = model(train_loader.dataset[0][0].unsqueeze(0).to(device))

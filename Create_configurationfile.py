@@ -162,8 +162,8 @@ def prepare_dataloaders(data_path, target_column, batch_size=64):
 
 # Main execution
 if __name__ == "__main__":
-    data_path = 'AirBnbData.csv'  # Update with your dataset path
-    target_column = 'Price_Night'  # Update with your target column
+    data_path = 'AirBnbData.csv'  
+    target_column = 'Price_Night'  
     num_epochs = 10
     
     # Load configuration from YAML file

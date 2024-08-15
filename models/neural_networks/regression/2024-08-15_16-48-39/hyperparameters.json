@@ -1,0 +1,7 @@
+{
+    "hidden_layer_width": 128,
+    "depth": 2,
+    "learning_rate": 0.001,
+    "optimiser": "Adam",
+    "input_dim": 777
+}

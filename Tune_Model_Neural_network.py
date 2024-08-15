@@ -39,7 +39,7 @@ class AirbnbNightlyPriceRegressionDataset(Dataset):
         self.features = data.drop(columns=[target_column, 'ID', 'Title', 'Description', 'Amenities', 'url', 'Unnamed: 19'])
         self.labels = data[target_column]
 
-        categorical_features = ['Category', 'Location']  # Adjust based on your actual categorical features
+        categorical_features = ['Category', 'Location']  
         numerical_features = self.features.select_dtypes(include=[np.number]).columns.tolist()
         self.features = self.features[numerical_features + categorical_features]
 
@@ -79,7 +79,7 @@ class FullyConnectedNN(nn.Module):
         hidden_layer_width = config['hidden_layer_width']
         depth = config['depth']
         input_dim = config['input_dim']
-        output_dim = 1  # Assuming regression, output is a single value
+        output_dim = 1  
 
         layers = []
         in_dim = input_dim

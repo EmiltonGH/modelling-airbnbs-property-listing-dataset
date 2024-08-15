@@ -138,7 +138,7 @@ if __name__ == "__main__":
     train_loader, val_loader, test_loader = prepare_dataloaders(data_path, target_column)
     
     # Initialize model
-    input_dim = 777  # Update this to match the actual number of features
+    input_dim = 17  
     hidden_dims = [512, 256, 128]  # Example hidden layer dimensions
     output_dim = 1  # Output dimension for regression (price per night)
     

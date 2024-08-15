@@ -8,7 +8,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from tabular_data import load_airbnb  # Ensure this module is available
+from tabular_data import load_airbnb  
 
 def save_model(model, hyperparameters, metrics, folder="models/classification/logistic_regression"):
     """

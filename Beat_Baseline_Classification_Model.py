@@ -151,9 +151,7 @@ def evaluate_all_models(task_folder):
         print("\n")
 
 def find_best_model(task_folder):
-    """
-    Find the best model based on performance metrics within the task_folder.
-    """
+    
     model_folders = [d for d in os.listdir(task_folder) if os.path.isdir(os.path.join(task_folder, d))]
     
     best_model = None

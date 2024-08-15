@@ -19,7 +19,6 @@ data['Category'] = label_encoder.fit_transform(data['Category'])
 # Load the features and labels
 X, y = load_airbnb(data, label='Category')
 
-# Ensure X does not have non-numeric data types that need encoding
 print("\nFeature data types before handling missing values:")
 print(X.dtypes)
 
