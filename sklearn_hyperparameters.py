@@ -1,69 +1,65 @@
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error, make_scorer
+from sklearn.linear_model import SGDRegressor
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import make_scorer, mean_squared_error
+import pandas as pd
 import numpy as np
+from tabular_data import load_airbnb  # Import the load_airbnb function
 
-def tune_regression_model_hyperparameters(model_class, param_grid, X_train, y_train, cv=5):
-    """
-    Perform a grid search over hyperparameter values using GridSearchCV.
+# Load the Airbnb dataset
+data = pd.read_csv('clean_tabular_data.csv')
 
-    Args:
-    - model_class: The model class (e.g., SGDRegressor, LinearRegression).
-    - param_grid: Dictionary with hyperparameter names mapping to a list of values to try.
-    - X_train: Training feature set.
-    - y_train: Training labels.
-    - cv: Number of cross-validation folds (default is 5).
+# Extract features and labels using the imported load_airbnb function
+features, labels = load_airbnb(data, label='Price_Night')
 
-    Returns:
-    - best_model: The model instance with the best hyperparameters found.
-    - best_hyperparameters: Dictionary of the best hyperparameters found.
-    - best_score: The best cross-validated score (lower RMSE) on the validation set.
-    """
+# Split data into training, validation, and test sets
+X_train, X_temp, y_train, y_temp = train_test_split(features, labels, test_size=0.3, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
-    # Initialize the model with default parameters
-    model = model_class()
+# Impute missing values in the training, validation, and test sets
+imputer = SimpleImputer(strategy='mean')
+X_train_imputed = imputer.fit_transform(X_train)
+X_val_imputed = imputer.transform(X_val)
+X_test_imputed = imputer.transform(X_test)
 
-    # Define RMSE as the scoring metric for GridSearchCV
-    rmse_scorer = make_scorer(mean_squared_error, squared=False, greater_is_better=False)
+# Combine training and validation data to use with GridSearchCV
+X_train_final = np.vstack([X_train_imputed, X_val_imputed])
+y_train_final = np.hstack([y_train, y_val])
 
-    # Initialize GridSearchCV
-    grid_search = GridSearchCV(model, param_grid, scoring=rmse_scorer, cv=cv, n_jobs=-1)
-
-    # Fit GridSearchCV
+# Function to tune hyperparameters using GridSearchCV
+def tune_regression_model_hyperparameters(model_class, X_train, y_train, X_test, y_test, param_grid, cv=5):
+    scoring = make_scorer(mean_squared_error, greater_is_better=False)
+    grid_search = GridSearchCV(model_class(), param_grid, scoring=scoring, cv=cv, n_jobs=-1)
     grid_search.fit(X_train, y_train)
 
-    # Extract the best model, hyperparameters, and the best score
     best_model = grid_search.best_estimator_
     best_hyperparameters = grid_search.best_params_
-    best_score = -grid_search.best_score_  # convert back to positive RMSE
+    
+    test_predictions = best_model.predict(X_test)
+    test_rmse = np.sqrt(mean_squared_error(y_test, test_predictions))
+    
+    best_performance_metrics = {
+        "validation_RMSE": np.sqrt(-grid_search.best_score_),
+        "test_RMSE": test_rmse
+    }
+    
+    return best_model, best_hyperparameters, best_performance_metrics
 
-    return best_model, best_hyperparameters, best_score
-
-# Example usage
-from sklearn.linear_model import SGDRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import make_regression
-
-# Create synthetic regression data
-X, y = make_regression(n_samples=1000, n_features=20, noise=0.1, random_state=42)
-
-# Split into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Define hyperparameters to tune
+# Define the hyperparameters to tune
 param_grid = {
     'alpha': [0.0001, 0.001, 0.01],
-    'max_iter': [1000, 5000, 10000],
-    'penalty': ['l2', 'l1', 'elasticnet']
+    'learning_rate': ['constant', 'optimal', 'invscaling', 'adaptive'],
+    'penalty': ['l1', 'l2', 'elasticnet'],
+    'max_iter': [6000, 8000, 10000]
 }
 
-# Perform grid search using the function
-best_model, best_hyperparameters, best_score = tune_regression_model_hyperparameters(
-    SGDRegressor,
-    param_grid,
-    X_train,
-    y_train
-)
+# Call the function to tune hyperparameters using GridSearchCV
+best_model, best_hyperparameters, best_performance_metrics = tune_regression_model_hyperparameters(
+    SGDRegressor, X_train_final, y_train_final, X_test_imputed, y_test, param_grid)
 
-# Display results
-print("Best Hyperparameters:", best_hyperparameters)
-print("Best RMSE on validation set:", best_score)
+# Print the results
+print("Best Model:", best_model)
+print("\nBest Hyperparameters:", best_hyperparameters)
+print("\nBest Performance Metrics:")
+for metric, value in best_performance_metrics.items():
+    print(metric + ":", value)
