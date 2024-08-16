@@ -1,6 +1,7 @@
 import os
 import json
 from joblib import dump
+from sklearn.linear_model import SGDRegressor
 
 def save_model(model, hyperparameters, metrics, folder="models/regression/linear_regression"):
     """
@@ -32,12 +33,6 @@ def save_model(model, hyperparameters, metrics, folder="models/regression/linear
         json.dump(metrics, metrics_file, indent=4)
 
     print(f"Model, hyperparameters, and metrics saved to {folder}")
-
-# Example usage
-# Assuming you have already trained and tuned your model
-
-# Define sample data (replace these with your actual model, hyperparameters, and metrics)
-from sklearn.linear_model import SGDRegressor
 
 # Hypothetical best model, hyperparameters, and metrics after tuning
 best_model = SGDRegressor(alpha=0.001, max_iter=10000, penalty='l2')

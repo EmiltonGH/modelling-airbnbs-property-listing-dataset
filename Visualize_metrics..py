@@ -179,7 +179,7 @@ def prepare_dataloaders(data_path, target_column, batch_size=64):
 
 # Main execution
 if __name__ == "__main__":
-    data_path = 'AirBnbData.csv'
+    data_path = 'clean_tabular_data.csv'
     target_column = 'Price_Night'
     num_epochs = 10
     learning_rate = 0.001

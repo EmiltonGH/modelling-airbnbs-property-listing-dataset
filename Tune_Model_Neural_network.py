@@ -337,7 +337,7 @@ def find_best_nn(data_path, target_column, num_epochs=10, batch_size=64):
 
 # Main execution
 if __name__ == "__main__":
-    data_path = 'AirBnbData.csv'
+    data_path = 'clean_tabular_data.csv'
     target_column = 'Price_Night'
     
     best_model, best_metrics, best_config = find_best_nn(data_path, target_column)

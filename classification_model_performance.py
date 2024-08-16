@@ -44,7 +44,7 @@ def evaluate_classification_model(model, X_train, y_train, X_test, y_test):
 
 if __name__ == "__main__":
     # Load the dataset
-    data = pd.read_csv('AirBnbData.csv')
+    data = pd.read_csv('clean_tabular_data.csv')
 
     # Encode the 'Category' column
     label_encoder = LabelEncoder()

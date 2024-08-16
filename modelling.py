@@ -1,6 +1,5 @@
 from sklearn.linear_model import SGDRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error, r2_score
 from tabular_data import load_airbnb

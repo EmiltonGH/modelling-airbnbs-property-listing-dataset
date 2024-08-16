@@ -9,7 +9,7 @@ from tabular_data import load_airbnb
 
 if __name__ == "__main__":
     # Load the dataset
-    data = pd.read_csv('AirBnbData.csv')
+    data = pd.read_csv('clean_tabular_data.csv')
 
     # Encode the 'Category' column
     label_encoder = LabelEncoder()

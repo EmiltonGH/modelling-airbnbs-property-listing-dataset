@@ -10,7 +10,7 @@ from sklearn.impute import SimpleImputer
 from tabular_data import load_airbnb 
 
 # Load data
-data = pd.read_csv('AirBnbData.csv')  
+data = pd.read_csv('clean_tabular_data.csv')  
 
 # Encode categorical labels
 label_encoder = LabelEncoder()

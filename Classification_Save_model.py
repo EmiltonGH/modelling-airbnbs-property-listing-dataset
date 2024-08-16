@@ -36,7 +36,7 @@ def save_model(model, hyperparameters, metrics, folder="models/classification/lo
     print(f"Model, hyperparameters, and metrics saved to {folder}")
 
 # Load data
-data = pd.read_csv('AirBnbData.csv')
+data = pd.read_csv('clean_tabular_data.csv')
 
 # Encode categorical labels
 label_encoder = LabelEncoder()

@@ -184,7 +184,7 @@ def find_best_model(task_folder):
 
 if __name__ == "__main__":
     # Load the dataset
-    data = pd.read_csv('AirBnbData.csv')
+    data = pd.read_csv('clean_tabular_data.csv')
 
     # Encode categorical labels
     label_encoder = LabelEncoder()

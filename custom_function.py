@@ -1,6 +1,9 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 from itertools import product
+from sklearn.linear_model import SGDRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_regression
 
 def custom_tune_regression_model_hyperparameters(
     model_class,
@@ -73,11 +76,6 @@ def custom_tune_regression_model_hyperparameters(
     performance_metrics['test_R2'] = test_r2
 
     return best_model, best_hyperparameters, performance_metrics
-
-# Example usage
-from sklearn.linear_model import SGDRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import make_regression
 
 # Create synthetic regression data
 X, y = make_regression(n_samples=1000, n_features=20, noise=0.1, random_state=42)
