@@ -74,14 +74,14 @@ class FullyConnectedNN(nn.Module):
         return self.model(x)
 
 # Training function with early stopping
-def train_and_evaluate(model, train_loader, val_loader, num_epochs, patience=3, learning_rate=0.001):
+def train(model, train_loader, val_loader, num_epochs, patience=3, learning_rate=0.001):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     
     # Initialize TensorBoard SummaryWriter
-    writer = SummaryWriter(log_dir='runs/airbnb_price_regression')
+    writer = SummaryWriter(log_dir='runs/desktop/modelling-airbnbs-property-listing-dataset')
 
     best_val_loss = float('inf')
     epochs_without_improvement = 0
@@ -188,14 +188,14 @@ if __name__ == "__main__":
     train_loader, val_loader, test_loader = prepare_dataloaders(data_path, target_column)
     
     # Initialize model
-    input_dim = 777  # Update this to match the actual number of features
+    input_dim = 667  
     hidden_dims = [512, 256, 128]  # Example hidden layer dimensions
     output_dim = 1  # Output dimension for regression (price per night)
     
     model = FullyConnectedNN(input_dim, hidden_dims, output_dim)
     
     # Train and evaluate the model
-    train_and_evaluate(model, train_loader, val_loader, num_epochs, patience=3, learning_rate=learning_rate)
+    train(model, train_loader, val_loader, num_epochs, patience=3, learning_rate=learning_rate)
 
     # Evaluate on the test set
     test_rmse = evaluate(model, test_loader)
