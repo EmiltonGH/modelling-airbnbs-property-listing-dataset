@@ -119,7 +119,7 @@ def evaluate_model(model, loader, criterion):
     return avg_loss, r_squared
 
 # Training function
-def train_and_evaluate(model, train_loader, val_loader, test_loader, config, num_epochs):
+def train(model, train_loader, val_loader, test_loader, config, num_epochs):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
@@ -255,4 +255,4 @@ if __name__ == "__main__":
     model = FullyConnectedNN(config)
 
     # Train and evaluate the model
-    train_and_evaluate(model, train_loader, val_loader, test_loader, config, num_epochs)
+    train(model, train_loader, val_loader, test_loader, config, num_epochs)

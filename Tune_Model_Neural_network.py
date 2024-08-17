@@ -141,7 +141,7 @@ def evaluate_model(model, loader, criterion):
     return avg_loss, r_squared
 
 # Training function
-def train_and_evaluate(model, train_loader, val_loader, test_loader, config, num_epochs):
+def train(model, train_loader, val_loader, test_loader, config, num_epochs):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
@@ -299,7 +299,7 @@ def find_best_nn(data_path, target_column, num_epochs=10, batch_size=64):
         model = FullyConnectedNN(config)
         
         # Train and evaluate model
-        train_and_evaluate(model, train_loader, val_loader, test_loader, config, num_epochs)
+        train(model, train_loader, val_loader, test_loader, config, num_epochs)
         
         # Load metrics and hyperparameters
         timestamp = os.listdir('models/neural_networks/regression')[-1]  # Get the most recent folder
