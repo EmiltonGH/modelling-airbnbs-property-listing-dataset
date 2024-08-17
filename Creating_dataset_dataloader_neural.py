@@ -17,7 +17,7 @@ class AirbnbNightlyPriceRegressionDataset(Dataset):
         self.labels = data[target_column]
         
         # Identify categorical and numerical columns
-        categorical_features = ['Category', 'Location']  # List your categorical columns here
+        categorical_features = ['Category', 'Location']  
         numerical_features = self.features.select_dtypes(include=[np.number]).columns.tolist()
 
         # Remove non-numeric columns
@@ -32,7 +32,7 @@ class AirbnbNightlyPriceRegressionDataset(Dataset):
                 ]), numerical_features),
                 ('cat', Pipeline(steps=[
                     ('imputer', SimpleImputer(strategy='most_frequent')),
-                    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))  # Ensure dense output
+                    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))  
                 ]), categorical_features)
             ])
         
@@ -71,7 +71,7 @@ class FullyConnectedNN(nn.Module):
         return self.model(x)
 
 # Training function
-def train_and_evaluate(model, train_loader, val_loader, num_epochs):
+def train(model, train_loader, val_loader, num_epochs):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     criterion = nn.MSELoss()
@@ -138,11 +138,11 @@ if __name__ == "__main__":
     train_loader, val_loader, test_loader = prepare_dataloaders(data_path, target_column)
     
     # Initialize model
-    input_dim = 17  
+    input_dim = 667  
     hidden_dims = [512, 256, 128]  # Example hidden layer dimensions
     output_dim = 1  # Output dimension for regression (price per night)
     
     model = FullyConnectedNN(input_dim, hidden_dims, output_dim)
     
     # Train and evaluate the model
-    train_and_evaluate(model, train_loader, val_loader, num_epochs)
+    train(model, train_loader, val_loader, num_epochs)
