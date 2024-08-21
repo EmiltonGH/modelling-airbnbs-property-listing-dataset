@@ -29,8 +29,8 @@ def combine_description_strings(dataset):
     # Check if the strings are in the form of lists
     mask = dataset['Description'].str.contains(r'\[', regex=False)
     dataset.loc[mask, 'Description'] = dataset.loc[mask, 'Description'].apply(lambda x: ' '.join(ast.literal_eval(x)))
-    # Remove 'About this space' prefix and strip whitespace
-    dataset.loc[:, 'Description'] = dataset['Description'].str.replace('About this space', '').str.strip()
+    # Remove 'About this space' prefix 
+    dataset.loc[:, 'Description'] = dataset['Description'].str.split(', ', n=1).str[1]
     return dataset
 
 def set_default_feature_values(dataset):
